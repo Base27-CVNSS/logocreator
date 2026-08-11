@@ -9,24 +9,23 @@ export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Avoid hydration mismatch: render a stable placeholder until mounted.
   useEffect(() => setMounted(true), []);
 
   const isDark = mounted && resolvedTheme === "dark";
 
   return (
     <Tip
-      label={!mounted ? "Theme" : isDark ? "Light mode" : "Dark mode"}
+      label={!mounted ? "Giao diện" : isDark ? "Chế độ sáng" : "Chế độ tối"}
       side="bottom"
     >
       <button
         type="button"
         aria-label={
           !mounted
-            ? "Toggle theme"
+            ? "Đổi giao diện sáng/tối"
             : isDark
-              ? "Switch to light mode"
-              : "Switch to dark mode"
+              ? "Chuyển sang chế độ sáng"
+              : "Chuyển sang chế độ tối"
         }
         onClick={() => setTheme(isDark ? "light" : "dark")}
         className="group relative flex size-10 items-center justify-center rounded-full border border-border/70 text-muted-foreground transition-colors hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:size-9"
