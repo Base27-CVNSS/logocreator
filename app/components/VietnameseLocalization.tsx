@@ -3,17 +3,13 @@
 import { useEffect } from "react";
 
 /**
- * Lớp bản địa hóa tương thích cho bản Việt hóa.
+ * Compatibility layer cho các chuỗi UI tiếng Anh còn nằm trong component lớn.
+ * Chỉ exact-match các câu giao diện đã biết; không dịch dữ liệu người dùng,
+ * key nội bộ, prompt kỹ thuật, tên model hay payload API.
  *
- * LogoCreator hiện chưa có hệ thống i18n tập trung; nhiều chuỗi giao diện nằm
- * trực tiếp trong các component lớn. Thành phần này chỉ dịch các chuỗi hiển thị
- * khớp chính xác (text/placeholder/title/aria-label), KHÔNG thay đổi key nội bộ,
- * prompt kỹ thuật, tên model hay payload gửi tới API.
- *
- * Khi codebase được tách sang dictionary i18n chính thức, file này có thể được
- * loại bỏ dần mà không ảnh hưởng logic sinh logo.
+ * Các thành phần quan trọng đã được dịch trực tiếp trong source. Lớp này là
+ * bước chuyển tiếp cho tới khi toàn bộ ứng dụng dùng dictionary i18n chính thức.
  */
-
 const VI_TEXT: Record<string, string> = {
   "Logo history": "Lịch sử logo",
   "Logo settings": "Thiết lập logo",
@@ -25,15 +21,9 @@ const VI_TEXT: Record<string, string> = {
   "Inspired by reference": "Lấy cảm hứng từ mẫu tham chiếu",
   "Remove reference": "Xóa mẫu tham chiếu",
   "Logo type": "Kiểu logo",
-  "Style": "Phong cách",
   "Brand color": "Màu thương hiệu",
-  "Background": "Nền",
-  "Advanced": "Nâng cao",
-  "Detail": "Mức chi tiết",
   "Detail level": "Mức độ chi tiết",
-  "Monochrome": "Đơn sắc",
   "Reference logo": "Logo tham chiếu",
-  "Variations": "Số phương án",
   "Number of variations": "Số lượng phương án",
   "Feeling lucky": "Thử ngẫu nhiên",
   "Feeling lucky: random style and AI-picked color":
@@ -47,37 +37,42 @@ const VI_TEXT: Record<string, string> = {
   "What's this?": "Đây là gì?",
   "Your logos": "Logo của bạn",
   "Out of free credits": "Đã hết lượt miễn phí",
-  "Structure": "Cấu trúc",
-  "Icon + name": "Biểu tượng + tên",
-  "Icon only": "Chỉ biểu tượng",
-  "Wordmark (text only)": "Wordmark (chỉ chữ)",
-  "Wordmark": "Wordmark",
-  "Monogram": "Chữ lồng",
-  "Emblem / badge": "Huy hiệu / phù hiệu",
-  "Abstract mark": "Biểu tượng trừu tượng",
-  "Minimal": "Tối giản",
-  "Geometric": "Hình học",
-  "Gradient": "Chuyển sắc",
-  "Mascot": "Linh vật",
-  "Hand-drawn": "Vẽ tay",
-  "Luxury": "Cao cấp",
-  "Retro": "Hoài cổ",
-  "Surprise me": "Tạo bất ngờ",
-  "Balanced": "Cân bằng",
-  "Detailed": "Chi tiết",
-  "Blue": "Xanh dương",
-  "Red": "Đỏ",
-  "Green": "Xanh lá",
-  "Yellow": "Vàng",
-  "White": "Trắng",
-  "Gray": "Xám",
-  "Black": "Đen",
   "Company name": "Tên thương hiệu",
   "Start from your website": "Bắt đầu từ website của bạn",
   "Your website URL": "Địa chỉ website của bạn",
   "From website": "Từ website",
-  "Import": "Nhập",
   "Detected colors": "Màu nhận diện được",
+  "Detected brand colors": "Các màu thương hiệu nhận diện được",
+  "Remove imported brand": "Xóa thương hiệu đã nhập",
+  "Pick brand color from detected palette":
+    "Chọn màu thương hiệu từ bảng màu đã nhận diện",
+  "Auto-fill the name & brand color from your site":
+    "Tự điền tên và màu thương hiệu từ website",
+  "Out of credits, add a key": "Đã hết lượt, hãy thêm API key",
+  "Download PNG": "Tải PNG",
+  "Download SVG": "Tải SVG",
+  "Download all": "Tải tất cả",
+  "Create brand kit": "Tạo bộ nhận diện",
+  "Open brand kit": "Mở bộ nhận diện",
+  "Clear history": "Xóa lịch sử",
+};
+
+const VI_ATTRIBUTES: Record<string, string> = {
+  "A fox, friendly and modern, with a subtle leaf…":
+    "Một chú cáo thân thiện, hiện đại, điểm xuyết chiếc lá tinh tế…",
+  "Solstice Coffee": "Cà phê Bình Minh",
+  "yourcompany.com": "tencongty.vn",
+  "Logo history": "Lịch sử logo",
+  "Logo settings": "Thiết lập logo",
+  "Quick start presets": "Mẫu bắt đầu nhanh",
+  "Description suggestions": "Gợi ý mô tả",
+  "Remove reference": "Xóa mẫu tham chiếu",
+  "Logo type": "Kiểu logo",
+  "Detail level": "Mức độ chi tiết",
+  "Number of variations": "Số lượng phương án",
+  "Feeling lucky: random style and AI-picked color":
+    "Thử ngẫu nhiên: phong cách ngẫu nhiên và màu do AI chọn",
+  "Your website URL": "Địa chỉ website của bạn",
   "Detected brand colors": "Các màu thương hiệu nhận diện được",
   "Remove imported brand": "Xóa thương hiệu đã nhập",
   "Pick brand color from detected palette":
@@ -93,45 +88,15 @@ const VI_TEXT: Record<string, string> = {
   "Together AI key": "API key Together AI",
   "Your API key": "API key của bạn",
   "Add API key": "Thêm API key",
-  "Out of credits, add a key": "Đã hết lượt, hãy thêm API key",
-  "Remove": "Xóa",
-  "Cancel": "Hủy",
-  "Save key": "Lưu API key",
   "Paste your API key": "Dán API key của bạn",
   "Together AI API key": "API key Together AI",
-  "Get a free key from Together AI →": "Lấy API key từ Together AI →",
-  "Download": "Tải xuống",
-  "Download PNG": "Tải PNG",
-  "Download SVG": "Tải SVG",
-  "Download all": "Tải tất cả",
-  "Brand kit": "Bộ nhận diện thương hiệu",
-  "Create brand kit": "Tạo bộ nhận diện",
-  "Open brand kit": "Mở bộ nhận diện",
-  "History": "Lịch sử",
-  "Clear history": "Xóa lịch sử",
-  "Delete": "Xóa",
-  "Favorite": "Yêu thích",
-  "Rename": "Đổi tên",
-  "Regenerate": "Tạo lại",
-  "Vary": "Tạo biến thể",
-  "Edit": "Chỉnh sửa",
-  "Close": "Đóng",
-  "Sign in": "Đăng nhập",
-  "Sign out": "Đăng xuất",
-  "Account": "Tài khoản",
-  "API key": "API key",
-  "Loading…": "Đang tải…",
-  "Try again": "Thử lại",
-  "Retry": "Thử lại",
-  "Save": "Lưu",
-  "Done": "Hoàn tất",
-};
-
-const VI_ATTRIBUTES: Record<string, string> = {
-  "A fox, friendly and modern, with a subtle leaf…":
-    "Một chú cáo thân thiện, hiện đại, điểm xuyết chiếc lá tinh tế…",
-  "Solstice Coffee": "Cà phê Bình Minh",
-  "yourcompany.com": "tencongty.vn",
+  "Blue": "Xanh dương",
+  "Red": "Đỏ",
+  "Green": "Xanh lá",
+  "Yellow": "Vàng",
+  "White": "Trắng",
+  "Gray": "Xám",
+  "Black": "Đen",
 };
 
 const DYNAMIC_RULES: Array<[RegExp, string]> = [
@@ -157,39 +122,51 @@ function translateCore(core: string): string {
   return core;
 }
 
-function translateText(raw: string): string {
+function shouldSkip(node: Node): boolean {
+  const parent =
+    node.nodeType === Node.ELEMENT_NODE
+      ? (node as Element)
+      : node.parentElement;
+  return !!parent?.closest(
+    "script, style, code, pre, textarea, [contenteditable='true'], [data-no-i18n]",
+  );
+}
+
+function translateTextNode(node: Node) {
+  if (shouldSkip(node)) return;
+  const raw = node.nodeValue;
+  if (!raw) return;
   const core = raw.trim();
-  if (!core) return raw;
+  if (!core) return;
   const translated = translateCore(core);
-  if (translated === core) return raw;
+  if (translated === core) return;
   const leading = raw.match(/^\s*/)?.[0] ?? "";
   const trailing = raw.match(/\s*$/)?.[0] ?? "";
-  return `${leading}${translated}${trailing}`;
+  node.nodeValue = `${leading}${translated}${trailing}`;
 }
 
 function translateElement(el: Element) {
+  if (shouldSkip(el)) return;
   for (const attr of ["placeholder", "aria-label", "title"] as const) {
     const value = el.getAttribute(attr);
     if (!value) continue;
-    const translated = VI_ATTRIBUTES[value] ?? translateCore(value);
-    if (translated !== value) el.setAttribute(attr, translated);
+    const translated = VI_ATTRIBUTES[value];
+    if (translated && translated !== value) el.setAttribute(attr, translated);
   }
 }
 
 function translateTree(root: Node) {
   if (root.nodeType === Node.TEXT_NODE) {
-    const value = root.nodeValue;
-    if (value) root.nodeValue = translateText(value);
+    translateTextNode(root);
     return;
   }
-
+  if (shouldSkip(root)) return;
   if (root instanceof Element) translateElement(root);
 
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let node = walker.nextNode();
   while (node) {
-    const value = node.nodeValue;
-    if (value) node.nodeValue = translateText(value);
+    translateTextNode(node);
     node = walker.nextNode();
   }
 
@@ -207,7 +184,7 @@ export default function VietnameseLocalization() {
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "characterData") {
-          translateTree(mutation.target);
+          translateTextNode(mutation.target);
           continue;
         }
         if (mutation.type === "attributes") {
