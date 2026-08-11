@@ -35,8 +35,7 @@ export type Generation = {
   params: GenParams;
   createdAt?: number;
   favorite?: boolean;
-  name?: string; // user-given label, overrides companyName for display
-  /** Hydrated from on-device history (skips the new-logo entry animation). */
+  name?: string;
   restored?: boolean;
 };
 
@@ -54,7 +53,7 @@ function SkeletonCell() {
     >
       <span className="spinner-ring size-7" />
       <span className="text-xs font-medium text-muted-foreground">
-        Generating…
+        Đang tạo…
       </span>
     </motion.div>
   );
@@ -84,8 +83,6 @@ function GenerationCell({
   return (
     <motion.div
       layout
-      // Restored history cells paint in place: the entry stagger is for
-      // genuinely new logos, not a reload of last week's.
       initial={gen.restored ? false : { opacity: 0, scale: 0.94, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.94 }}
@@ -103,18 +100,18 @@ function GenerationCell({
       }}
       role="button"
       tabIndex={0}
-      aria-label={`Open ${fallbackName}`}
+      aria-label={`Mở ${fallbackName}`}
       className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl border border-border bg-card outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       {imgFailed ? (
         <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
           <ImageOff className="size-6 opacity-60" />
-          <span className="px-3 text-center text-xs">Image unavailable</span>
+          <span className="px-3 text-center text-xs">Không thể hiển thị ảnh</span>
         </div>
       ) : (
         <Image
           src={gen.image}
-          alt={`${fallbackName} logo`}
+          alt={`Logo ${fallbackName}`}
           width={512}
           height={512}
           unoptimized
@@ -123,9 +120,9 @@ function GenerationCell({
           className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
       )}
-      {/* Favorite star: always visible when favorited, else on hover/focus */}
+
       <Tip
-        label={gen.favorite ? "Remove from favorites" : "Add to favorites"}
+        label={gen.favorite ? "Bỏ khỏi yêu thích" : "Thêm vào yêu thích"}
         side="right"
       >
         <button
@@ -134,32 +131,28 @@ function GenerationCell({
             e.stopPropagation();
             onToggleFavorite(gen);
           }}
-          aria-label={
-            gen.favorite ? "Remove from favorites" : "Add to favorites"
-          }
+          aria-label={gen.favorite ? "Bỏ khỏi yêu thích" : "Thêm vào yêu thích"}
           aria-pressed={!!gen.favorite}
           className={cn(
             "absolute left-2 top-2 z-10 flex size-7 items-center justify-center rounded-full border bg-black/45 outline-none backdrop-blur-md transition-all duration-200 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-white/60 [@media(hover:none)]:size-9",
             gen.favorite
               ? "border-amber-300/40 text-amber-300 opacity-100"
-              : // No hover on touch: keep the star reachable there.
-                "border-white/15 text-white/85 opacity-0 hover:text-white group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100",
+              : "border-white/15 text-white/85 opacity-0 hover:text-white group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100",
           )}
         >
           <Star className={cn("size-3.5", gen.favorite && "fill-amber-300")} />
         </button>
       </Tip>
-      {/* Brand-kit badge: always visible on logos that have one, and a one-tap
-          shortcut back into the saved kit. */}
+
       {hasKit && (
-        <Tip label="Open brand kit" side="left">
+        <Tip label="Mở bộ nhận diện" side="left">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               onCreateBrandKit(gen);
             }}
-            aria-label="Open brand kit"
+            aria-label="Mở bộ nhận diện"
             className="absolute right-2 top-2 z-10 flex items-center gap-1 rounded-full border border-white/15 bg-primary/90 px-2 py-1 text-[0.65rem] font-semibold text-primary-foreground shadow-sm outline-none backdrop-blur-md transition-colors hover:bg-primary focus-visible:ring-2 focus-visible:ring-white/60 [@media(hover:none)]:py-1.5"
           >
             <Package className="size-3" strokeWidth={2.5} />
@@ -167,28 +160,28 @@ function GenerationCell({
           </button>
         </Tip>
       )}
-      {/* Revealed on hover OR keyboard focus; always visible on touch (no hover there) */}
+
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/45 via-black/0 to-transparent opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100">
         <div className="pointer-events-auto mb-3 flex items-center gap-1 rounded-full border border-white/15 bg-black/55 p-1 backdrop-blur-md">
-          <Tip label="Download PNG">
+          <Tip label="Tải PNG">
             <a
               href={gen.image}
               download={`${slugify(gen.companyName)}.png`}
               onClick={(e) => e.stopPropagation()}
-              aria-label="Download PNG"
+              aria-label="Tải PNG"
               className="flex size-8 items-center justify-center rounded-full text-white/90 outline-none transition-colors hover:bg-white/15 focus-visible:bg-white/20 focus-visible:ring-2 focus-visible:ring-white/60 [@media(hover:none)]:size-9"
             >
               <Download className="size-4" />
             </a>
           </Tip>
-          <Tip label={hasKit ? "Open brand kit" : "Create brand kit"}>
+          <Tip label={hasKit ? "Mở bộ nhận diện" : "Tạo bộ nhận diện"}>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 onCreateBrandKit(gen);
               }}
-              aria-label={hasKit ? "Open brand kit" : "Create brand kit"}
+              aria-label={hasKit ? "Mở bộ nhận diện" : "Tạo bộ nhận diện"}
               className="flex size-8 items-center justify-center rounded-full text-white/90 outline-none transition-colors hover:bg-white/15 focus-visible:bg-white/20 focus-visible:ring-2 focus-visible:ring-white/60 [@media(hover:none)]:size-9"
             >
               {hasKit ? (
@@ -198,7 +191,7 @@ function GenerationCell({
               )}
             </button>
           </Tip>
-          <Tip label={busy ? "Still generating…" : "Make variations"}>
+          <Tip label={busy ? "Vẫn đang tạo…" : "Tạo các biến thể"}>
             <button
               type="button"
               disabled={busy}
@@ -206,7 +199,7 @@ function GenerationCell({
                 e.stopPropagation();
                 onVary(gen);
               }}
-              aria-label="Make variations of this logo"
+              aria-label="Tạo biến thể từ logo này"
               className="flex size-8 items-center justify-center rounded-full text-white/90 outline-none transition-colors hover:bg-white/15 focus-visible:bg-white/20 focus-visible:ring-2 focus-visible:ring-white/60 disabled:pointer-events-none disabled:opacity-40 [@media(hover:none)]:size-9"
             >
               <RefreshCw className="size-4" />
@@ -240,21 +233,15 @@ export default function Gallery({
       <div className="flex h-full min-h-[16rem] flex-col items-center justify-center px-8 py-16 text-center">
         <LogoMark className="animate-pulse-soft size-12 opacity-25" />
         <h2 className="mt-5 text-lg font-bold text-foreground">
-          Your logos will appear here
+          Logo của bạn sẽ xuất hiện tại đây
         </h2>
         <p className="mt-1.5 max-w-xs text-pretty text-sm text-muted-foreground">
-          Pick a quick-start preset or fill in the details, hit Generate, and
-          every logo you make stacks up right here.
+          Chọn một mẫu bắt đầu nhanh hoặc điền các thông tin, nhấn Tạo logo và mọi kết quả sẽ được xếp lại ngay tại đây.
         </p>
       </div>
     );
   }
 
-  // Favorites pin to the front of the gallery (newest-first within each group),
-  // so a starred logo stays easy to find as more generations stack up. The sort
-  // is stable, so it only lifts favorites above non-favorites and otherwise
-  // keeps the incoming newest-first order. The layout animation on each cell
-  // makes the star visibly float the logo to the top.
   const ordered =
     generations.some((g) => g.favorite) && generations.some((g) => !g.favorite)
       ? [...generations].sort(

@@ -3,6 +3,12 @@
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
+const OPTION_LABELS: Record<string, string> = {
+  Minimal: "Tối giản",
+  Balanced: "Cân bằng",
+  Detailed: "Chi tiết",
+};
+
 export default function Segmented({
   options,
   value,
@@ -16,15 +22,11 @@ export default function Segmented({
   onChange: (value: string) => void;
   className?: string;
   ariaLabel?: string;
-  /** Skip the taller phone touch height, for tight spots like the sticky
-   *  generate bar where vertical space is at a premium. */
   compact?: boolean;
 }) {
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const activeIdx = Math.max(0, options.indexOf(value));
 
-  // WAI-ARIA radiogroup keyboard pattern: one Tab stop (the selected option),
-  // arrows move + select with wrap-around, Home/End jump to the edges.
   function onKeyDown(e: React.KeyboardEvent) {
     let next: number | null = null;
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
@@ -66,8 +68,6 @@ export default function Segmented({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(option)}
             className={cn(
-              // Taller on phones for a comfortable touch target (unless the
-              // caller asked for the compact form).
               "flex-1 rounded-md px-2 py-1.5 text-xs font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring",
               !compact && "min-h-10 sm:min-h-0",
               active
@@ -75,7 +75,7 @@ export default function Segmented({
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
-            {option}
+            {OPTION_LABELS[option] ?? option}
           </button>
         );
       })}

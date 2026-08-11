@@ -1,0 +1,354 @@
+"use client";
+
+import { useEffect } from "react";
+
+/**
+ * Compatibility layer cho các chuỗi UI tiếng Anh còn nằm trong component lớn.
+ * Chỉ exact-match các câu giao diện đã biết; không dịch dữ liệu người dùng,
+ * key nội bộ, prompt kỹ thuật, tên model hay payload API.
+ *
+ * Các thành phần quan trọng đã được dịch trực tiếp trong source. Lớp này là
+ * bước chuyển tiếp cho tới khi toàn bộ ứng dụng dùng dictionary i18n chính thức.
+ */
+const VI_TEXT: Record<string, string> = {
+  "Logo history": "Lịch sử logo",
+  "Logo settings": "Thiết lập logo",
+  "Quick start": "Bắt đầu nhanh",
+  "Quick start presets": "Mẫu bắt đầu nhanh",
+  "Describe it": "Mô tả ý tưởng",
+  "(optional)": "(tùy chọn)",
+  "Description suggestions": "Gợi ý mô tả",
+  "Inspired by reference": "Lấy cảm hứng từ mẫu tham chiếu",
+  "Remove reference": "Xóa mẫu tham chiếu",
+  "Logo type": "Kiểu logo",
+  "Style": "Phong cách",
+  "Brand color": "Màu thương hiệu",
+  "Brand": "Thương hiệu",
+  "Background": "Nền",
+  "Advanced": "Nâng cao",
+  "Detail": "Mức chi tiết",
+  "Detail level": "Mức độ chi tiết",
+  "Monochrome": "Đơn sắc",
+  "Reference logo": "Logo tham chiếu",
+  "Variations": "Số phương án",
+  "Number of variations": "Số lượng phương án",
+  "Feeling lucky": "Thử ngẫu nhiên",
+  "Feeling lucky: random style and AI-picked color":
+    "Thử ngẫu nhiên: phong cách ngẫu nhiên và màu do AI chọn",
+  "Generating…": "Đang tạo…",
+  "Editing…": "Đang chỉnh sửa…",
+  "Generate logo": "Tạo logo",
+  "Sign in to generate": "Đăng nhập để tạo logo",
+  "Add a key to generate": "Thêm API key để tạo logo",
+  "Add your key": "Thêm API key",
+  "Use your key": "Dùng API key của bạn",
+  "What's this?": "Đây là gì?",
+  "Your logos": "Logo của bạn",
+  "Out of free credits": "Đã hết lượt miễn phí",
+  "Company name": "Tên thương hiệu",
+  "Start from your website": "Bắt đầu từ website của bạn",
+  "Your website URL": "Địa chỉ website của bạn",
+  "From website": "Từ website",
+  "Detected colors": "Màu nhận diện được",
+  "Detected brand colors": "Các màu thương hiệu nhận diện được",
+  "Remove imported brand": "Xóa thương hiệu đã nhập",
+  "Pick brand color from detected palette":
+    "Chọn màu thương hiệu từ bảng màu đã nhận diện",
+  "Auto-fill the name & brand color from your site":
+    "Tự điền tên và màu thương hiệu từ website",
+  "Out of credits, add a key": "Đã hết lượt, hãy thêm API key",
+  "Download PNG": "Tải PNG",
+  "Download SVG": "Tải SVG",
+  "Download all": "Tải tất cả",
+  "Create brand kit": "Tạo bộ nhận diện",
+  "Open brand kit": "Mở bộ nhận diện",
+  "Clear history": "Xóa lịch sử",
+
+  "Your logo history": "Lịch sử logo của bạn",
+  "Favorites": "Yêu thích",
+  "Clear all?": "Xóa tất cả?",
+  "Clear all": "Xóa tất cả",
+  "No logos yet": "Chưa có logo nào",
+  "Generate a logo and it'll be saved here automatically, only on this device.":
+    "Logo bạn tạo sẽ tự động được lưu tại đây và chỉ nằm trên thiết bị này.",
+  "Earlier": "Trước đó",
+  "Today": "Hôm nay",
+  "Yesterday": "Hôm qua",
+  "Untitled": "Chưa đặt tên",
+  "Couldn't vectorize this logo": "Không thể chuyển logo này sang vector",
+  "Remove from favorites": "Bỏ khỏi yêu thích",
+  "Add to favorites": "Thêm vào yêu thích",
+  "Click again to delete": "Nhấn lần nữa để xóa",
+  "Delete": "Xóa",
+  "Confirm delete": "Xác nhận xóa",
+  "Confirm clear all history": "Xác nhận xóa toàn bộ lịch sử",
+  "Clear all history": "Xóa toàn bộ lịch sử",
+  "saved on this device.": "được lưu trên thiết bị này.",
+  "logos": "logo",
+
+  "Standard": "Tiêu chuẩn",
+  "High-res": "Độ phân giải cao",
+  "Print": "In ấn",
+  "PNG export size": "Kích thước xuất PNG",
+  "Generated logo": "Logo đã tạo",
+  "Large preview and actions for this generated logo, including AI edits.":
+    "Xem trước kích thước lớn và thao tác với logo, bao gồm chỉnh sửa bằng AI.",
+  "This image can't be loaded anymore.": "Không thể tải lại ảnh này.",
+  "Auto": "Tự động",
+  "Keep editing": "Tiếp tục chỉnh sửa",
+  "Describe a tweak. AI re-works this exact logo and saves it as a new version.":
+    "Mô tả thay đổi bạn muốn. AI sẽ chỉnh chính logo này và lưu thành một phiên bản mới.",
+  "Bolder": "Đậm hơn",
+  "Simpler": "Đơn giản hơn",
+  "More modern": "Hiện đại hơn",
+  "More detail": "Chi tiết hơn",
+  "Vintage": "Cổ điển",
+  "Flat color": "Màu phẳng",
+  "Fix text": "Sửa chữ",
+  "Apply edit": "Áp dụng chỉnh sửa",
+  "Vector SVG (auto-traced)": "SVG vector (tự động vector hóa)",
+  "Regenerate from the same settings": "Tạo lại với cùng thiết lập",
+  "Redo": "Tạo lại",
+  "Quick edits": "Chỉnh nhanh",
+  "Press Enter to save the new name.": "Nhấn Enter để lưu tên mới.",
+  "Logo name (click to rename)": "Tên logo (nhấn để đổi tên)",
+  "Click to rename": "Nhấn để đổi tên",
+  "Describe an edit to this logo": "Mô tả chỉnh sửa cho logo này",
+  "Couldn't export this size": "Không thể xuất ở kích thước này",
+
+  "Opening your brand kit": "Đang mở bộ nhận diện",
+  "Your brand kit is ready": "Bộ nhận diện của bạn đã sẵn sàng",
+  "Building your brand kit": "Đang tạo bộ nhận diện của bạn",
+  "Color palette": "Bảng màu",
+  "Done": "Hoàn tất",
+  "Saved to this logo": "Đã lưu cùng logo này",
+  "Build this kit again from scratch": "Tạo lại bộ nhận diện này từ đầu",
+  "Rebuild": "Tạo lại",
+  "Delete kit?": "Xóa bộ nhận diện?",
+  "Delete this saved kit": "Xóa bộ nhận diện đã lưu",
+  "Confirm: permanently delete this saved kit":
+    "Xác nhận: xóa vĩnh viễn bộ nhận diện đã lưu",
+  "Discard this brand kit": "Hủy bộ nhận diện này",
+  "Confirm discard: this deletes every built asset":
+    "Xác nhận hủy: thao tác này xóa toàn bộ tài sản đã tạo",
+  "Discard everything?": "Hủy tất cả?",
+  "Discard": "Hủy",
+  "Reopen this kit anytime from the logo.":
+    "Bạn có thể mở lại bộ nhận diện này từ logo bất cứ lúc nào.",
+  "Close anytime, it keeps building in the background.":
+    "Có thể đóng bất cứ lúc nào; quá trình tạo vẫn tiếp tục trong phiên hiện tại.",
+  "Style guide": "Hướng dẫn nhận diện",
+  "Download all (.zip)": "Tải tất cả (.zip)",
+  "Download": "Tải xuống",
+  "Pick what to include. Almost everything is generated free on your device; only the two AI product shots use credits.":
+    "Chọn những hạng mục cần đưa vào. Hầu hết được tạo miễn phí trên thiết bị; chỉ hai ảnh sản phẩm bằng AI sử dụng lượt tính phí.",
+  "Couldn't prepare this logo's assets. The image may have failed to load.":
+    "Không thể chuẩn bị tài sản cho logo này. Có thể ảnh nguồn đã tải lỗi.",
+  "Couldn't prepare this logo's assets":
+    "Không thể chuẩn bị tài sản cho logo này",
+  "Try again, or close and reopen the brand kit.":
+    "Hãy thử lại hoặc đóng rồi mở lại bộ nhận diện.",
+  "Close": "Đóng",
+  "Try again": "Thử lại",
+  "Preparing your assets": "Đang chuẩn bị tài sản",
+  "Preparing your assets…": "Đang chuẩn bị tài sản…",
+  "Free": "Miễn phí",
+  "Cancel": "Hủy",
+  "Build kit": "Tạo bộ nhận diện",
+  "all free": "hoàn toàn miễn phí",
+  "Logo variants": "Biến thể logo",
+  "Merch": "Ứng dụng sản phẩm",
+  "Web & social": "Web & mạng xã hội",
+  "Icons & favicons": "Icon & favicon",
+  "Transparent, on-light, on-dark + SVG":
+    "Nền trong suốt, nền sáng, nền tối + SVG",
+  "Real-photo tee, mug & tote + AI card & signage":
+    "Áo, cốc, túi ảnh thật + danh thiếp và biển hiệu AI",
+  "Avatar, Open Graph card & banner": "Avatar, thẻ Open Graph & banner",
+  "App icon + favicon": "Icon ứng dụng + favicon",
+};
+
+const VI_ATTRIBUTES: Record<string, string> = {
+  "A fox, friendly and modern, with a subtle leaf…":
+    "Một chú cáo thân thiện, hiện đại, điểm xuyết chiếc lá tinh tế…",
+  "e.g. make the icon bolder, try emerald green, add a small leaf…":
+    "Ví dụ: làm biểu tượng đậm hơn, thử màu xanh ngọc, thêm một chiếc lá nhỏ…",
+  "Solstice Coffee": "Cà phê Bình Minh",
+  "yourcompany.com": "tencongty.vn",
+  "Logo history": "Lịch sử logo",
+  "Logo settings": "Thiết lập logo",
+  "Quick start presets": "Mẫu bắt đầu nhanh",
+  "Description suggestions": "Gợi ý mô tả",
+  "Remove reference": "Xóa mẫu tham chiếu",
+  "Logo type": "Kiểu logo",
+  "Detail level": "Mức độ chi tiết",
+  "Number of variations": "Số lượng phương án",
+  "Feeling lucky: random style and AI-picked color":
+    "Thử ngẫu nhiên: phong cách ngẫu nhiên và màu do AI chọn",
+  "Your website URL": "Địa chỉ website của bạn",
+  "Detected brand colors": "Các màu thương hiệu nhận diện được",
+  "Remove imported brand": "Xóa thương hiệu đã nhập",
+  "Pick brand color from detected palette":
+    "Chọn màu thương hiệu từ bảng màu đã nhận diện",
+  "Auto-fill the name & brand color from your site":
+    "Tự điền tên và màu thương hiệu từ website",
+  "Theme": "Giao diện",
+  "Light mode": "Chế độ sáng",
+  "Dark mode": "Chế độ tối",
+  "Toggle theme": "Đổi giao diện sáng/tối",
+  "Switch to light mode": "Chuyển sang chế độ sáng",
+  "Switch to dark mode": "Chuyển sang chế độ tối",
+  "Together AI key": "API key Together AI",
+  "Your API key": "API key của bạn",
+  "Add API key": "Thêm API key",
+  "Paste your API key": "Dán API key của bạn",
+  "Together AI API key": "API key Together AI",
+  "PNG export size": "Kích thước xuất PNG",
+  "Remove from favorites": "Bỏ khỏi yêu thích",
+  "Add to favorites": "Thêm vào yêu thích",
+  "Logo name (click to rename)": "Tên logo (nhấn để đổi tên)",
+  "Click to rename": "Nhấn để đổi tên",
+  "Describe an edit to this logo": "Mô tả chỉnh sửa cho logo này",
+  "Quick edits": "Chỉnh nhanh",
+  "Vector SVG (auto-traced)": "SVG vector (tự động vector hóa)",
+  "Regenerate from the same settings": "Tạo lại với cùng thiết lập",
+  "Build this kit again from scratch": "Tạo lại bộ nhận diện này từ đầu",
+  "Confirm: permanently delete this saved kit":
+    "Xác nhận: xóa vĩnh viễn bộ nhận diện đã lưu",
+  "Delete this saved kit": "Xóa bộ nhận diện đã lưu",
+  "Confirm discard: this deletes every built asset":
+    "Xác nhận hủy: thao tác này xóa toàn bộ tài sản đã tạo",
+  "Discard this brand kit": "Hủy bộ nhận diện này",
+  "Preparing your assets": "Đang chuẩn bị tài sản",
+  "Blue": "Xanh dương",
+  "Red": "Đỏ",
+  "Green": "Xanh lá",
+  "Yellow": "Vàng",
+  "White": "Trắng",
+  "Gray": "Xám",
+  "Black": "Đen",
+};
+
+const DYNAMIC_RULES: Array<[RegExp, string]> = [
+  [/^Generating (\d+) logos…$/, "Đang tạo $1 logo…"],
+  [/^Generating a logo…$/, "Đang tạo logo…"],
+  [/^Generation failed\.$/, "Tạo logo thất bại."],
+  [/^(\d+) logos ready\.$/, "$1 logo đã sẵn sàng."],
+  [/^1 logo ready\.$/, "1 logo đã sẵn sàng."],
+  [/^Generate (\d+) logos$/, "Tạo $1 logo"],
+  [/^(\d+) free credits left$/, "Còn $1 lượt miễn phí"],
+  [/^1 free credit left$/, "Còn 1 lượt miễn phí"],
+  [/^Sign in for (\d+) free credits$/, "Đăng nhập để nhận $1 lượt miễn phí"],
+  [/^Generated (\d+) of (\d+)$/, "Đã tạo $1/$2 logo"],
+  [/^Making (\d+) logos this run$/, "Lần này sẽ tạo $1 logo"],
+  [/^Making 1 logo this run$/, "Lần này sẽ tạo 1 logo"],
+  [/^Open (.+)$/, "Mở $1"],
+  [/^Uses 1 of (\d+) free credits? · added as a new logo$/,
+    "Dùng 1/$1 lượt miễn phí · lưu thành logo mới"],
+  [/^~(.+) per edit · added as a new logo$/,
+    "~$1 mỗi lần chỉnh sửa · lưu thành logo mới"],
+  [/^(\d+) of (\d+|…) assets$/, "$1/$2 tài sản"],
+  [/^Rendering (.+)…$/, "Đang tạo $1…"],
+  [/^Build (.+) brand kit$/, "Tạo bộ nhận diện cho $1"],
+  [/^(\d+) assets$/, "$1 tài sản"],
+  [/^(\d+) asset$/, "$1 tài sản"],
+  [/^View (.+) larger$/, "Xem $1 lớn hơn"],
+  [/^Download (.+)$/, "Tải $1"],
+  [/^(.+): failed$/, "$1: lỗi"],
+];
+
+function translateCore(core: string): string {
+  if (VI_TEXT[core]) return VI_TEXT[core];
+  for (const [pattern, replacement] of DYNAMIC_RULES) {
+    if (pattern.test(core)) return core.replace(pattern, replacement);
+  }
+  return core;
+}
+
+function shouldSkip(node: Node): boolean {
+  const parent =
+    node.nodeType === Node.ELEMENT_NODE
+      ? (node as Element)
+      : node.parentElement;
+  return !!parent?.closest(
+    "script, style, code, pre, textarea, [contenteditable='true'], [data-no-i18n]",
+  );
+}
+
+function translateTextNode(node: Node) {
+  if (shouldSkip(node)) return;
+  const raw = node.nodeValue;
+  if (!raw) return;
+  const core = raw.trim();
+  if (!core) return;
+  const normalized = core.replace(/\s+/g, " ");
+  const translated = translateCore(normalized);
+  if (translated === normalized) return;
+  const leading = raw.match(/^\s*/)?.[0] ?? "";
+  const trailing = raw.match(/\s*$/)?.[0] ?? "";
+  node.nodeValue = `${leading}${translated}${trailing}`;
+}
+
+function translateElement(el: Element) {
+  if (shouldSkip(el)) return;
+  for (const attr of ["placeholder", "aria-label", "title"] as const) {
+    const value = el.getAttribute(attr);
+    if (!value) continue;
+    const translated = VI_ATTRIBUTES[value] ?? translateCore(value);
+    if (translated !== value) el.setAttribute(attr, translated);
+  }
+}
+
+function translateTree(root: Node) {
+  if (root.nodeType === Node.TEXT_NODE) {
+    translateTextNode(root);
+    return;
+  }
+  if (shouldSkip(root)) return;
+  if (root instanceof Element) translateElement(root);
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let node = walker.nextNode();
+  while (node) {
+    translateTextNode(node);
+    node = walker.nextNode();
+  }
+
+  if (root instanceof Element) {
+    root
+      .querySelectorAll("[placeholder], [aria-label], [title]")
+      .forEach(translateElement);
+  }
+}
+
+export default function VietnameseLocalization() {
+  useEffect(() => {
+    translateTree(document.body);
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === "characterData") {
+          translateTextNode(mutation.target);
+          continue;
+        }
+        if (mutation.type === "attributes") {
+          if (mutation.target instanceof Element) translateElement(mutation.target);
+          continue;
+        }
+        mutation.addedNodes.forEach(translateTree);
+      }
+    });
+
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["placeholder", "aria-label", "title"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return null;
+}

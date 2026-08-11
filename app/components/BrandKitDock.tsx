@@ -4,11 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, Package, X } from "lucide-react";
 import type { Generation } from "./Gallery";
 
-/**
- * Floating "return to your brand kit" chip. Appears whenever a brand kit exists
- * but its modal is minimized. Shows a live progress ring while building, a
- * check when ready. Click to restore; the small × discards it.
- */
+/** Thanh nổi để quay lại bộ nhận diện khi hộp thoại đang thu nhỏ. */
 export default function BrandKitDock({
   gen,
   visible,
@@ -26,8 +22,6 @@ export default function BrandKitDock({
   onOpen: () => void;
   onDiscard: () => void;
 }) {
-  // Clamp: during the configure→building transition doneCount can momentarily
-  // exceed a just-narrowed total, which would over-fill the ring.
   const pct = total > 0 ? Math.min(1, doneCount / total) : 0;
   const shownDone = total > 0 ? Math.min(doneCount, total) : doneCount;
 
@@ -45,21 +39,23 @@ export default function BrandKitDock({
             <button
               type="button"
               onClick={onOpen}
-              aria-label="Reopen brand kit"
+              aria-label="Mở lại bộ nhận diện"
               className="flex items-center gap-3 rounded-2xl border border-border bg-card/95 py-2.5 pl-2.5 pr-4 text-left shadow-xl shadow-black/20 backdrop-blur transition-colors hover:border-foreground/30"
             >
               <DockRing phase={phase} pct={pct} />
               <span className="flex flex-col">
                 <span className="text-[0.82rem] font-semibold leading-tight">
-                  {phase === "done" ? "Brand kit ready" : "Building brand kit"}
+                  {phase === "done"
+                    ? "Bộ nhận diện đã sẵn sàng"
+                    : "Đang tạo bộ nhận diện"}
                 </span>
                 <span className="text-[0.7rem] leading-tight text-muted-foreground">
-                  {(gen.companyName || "Your logo") + " · "}
+                  {(gen.companyName || "Logo của bạn") + " · "}
                   {phase === "done"
-                    ? `${total} assets`
+                    ? `${total} tài sản`
                     : total > 0
-                      ? `${shownDone} of ${total}`
-                      : "starting…"}
+                      ? `${shownDone}/${total}`
+                      : "đang khởi tạo…"}
                 </span>
               </span>
             </button>
@@ -67,7 +63,7 @@ export default function BrandKitDock({
             <button
               type="button"
               onClick={onDiscard}
-              aria-label="Discard brand kit"
+              aria-label="Hủy bộ nhận diện"
               className="absolute -right-1.5 -top-1.5 flex size-7 items-center justify-center rounded-full border border-border bg-background text-muted-foreground opacity-0 shadow-md transition-all hover:text-destructive focus-visible:opacity-100 group-hover:opacity-100 sm:size-5 [@media(hover:none)]:opacity-100"
             >
               <X className="size-3" strokeWidth={2.5} />

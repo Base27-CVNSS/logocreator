@@ -2,11 +2,7 @@
 
 import { Input } from "@/app/components/ui/input";
 
-/**
- * The shared Together API-key field + "get a free key" link, reused by
- * ApiKeyDialog and the WelcomeModal so both look and behave identically.
- * Controlled: the parent owns the draft value and the save action.
- */
+/** Trường API key Together AI dùng chung cho hộp thoại và màn hình chào mừng. */
 export default function ApiKeyForm({
   value,
   onChange,
@@ -30,8 +26,8 @@ export default function ApiKeyForm({
             onSubmit();
           }
         }}
-        placeholder="Paste your API key"
-        aria-label="Together AI API key"
+        placeholder="Dán API key của bạn"
+        aria-label="API key Together AI"
         autoComplete="off"
         spellCheck={false}
         autoFocus={autoFocus}
@@ -42,7 +38,7 @@ export default function ApiKeyForm({
         rel="noreferrer"
         className="inline-block text-xs text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
       >
-        Get a free key from Together AI →
+        Lấy API key từ Together AI →
       </a>
     </div>
   );

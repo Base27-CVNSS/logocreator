@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 import LogoTypePreview, { typeDescription } from "./LogoTypePreview";
 
 export const LOGO_TYPES = [
-  { key: "icon-name", label: "Icon + name" },
-  { key: "icon", label: "Icon only" },
-  { key: "wordmark", label: "Wordmark (text only)" },
-  { key: "monogram", label: "Monogram" },
-  { key: "emblem", label: "Emblem / badge" },
-  { key: "abstract", label: "Abstract mark" },
+  { key: "icon-name", label: "Biểu tượng + tên" },
+  { key: "icon", label: "Chỉ biểu tượng" },
+  { key: "wordmark", label: "Wordmark (chỉ chữ)" },
+  { key: "monogram", label: "Chữ lồng" },
+  { key: "emblem", label: "Huy hiệu / phù hiệu" },
+  { key: "abstract", label: "Biểu tượng trừu tượng" },
 ] as const;
 
 export default function LogoTypeSelect({
@@ -22,19 +22,16 @@ export default function LogoTypeSelect({
   value: string;
   onChange: (value: string) => void;
 }) {
-  // The type whose structure preview is showing (follows hover + keyboard).
   const [preview, setPreview] = useState(value);
 
   return (
     <SelectPrimitive.Root
       value={value}
       onValueChange={onChange}
-      // Re-sync on open AND close, so a hover-moved preview can't stay stale
-      // (the panel otherwise kept the last hovered type until the next open).
       onOpenChange={() => setPreview(value)}
     >
       <SelectPrimitive.Trigger
-        aria-label="Logo type"
+        aria-label="Kiểu logo"
         className="flex h-11 w-full items-center justify-between whitespace-nowrap rounded-lg border border-input bg-background px-3.5 py-2 text-[0.9375rem] ring-offset-background transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
       >
         <SelectPrimitive.Value />
@@ -50,8 +47,6 @@ export default function LogoTypeSelect({
           sideOffset={6}
           className="z-50 overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2"
         >
-          {/* Radix forces the Content to flex-column; this inner row puts the
-              live preview panel to the right of the list. */}
           <div className="flex items-stretch">
             <SelectPrimitive.Viewport className="w-[var(--radix-select-trigger-width)] shrink-0 p-1.5">
               {LOGO_TYPES.map((t) => (
@@ -67,8 +62,6 @@ export default function LogoTypeSelect({
                   )}
                 >
                   <SelectPrimitive.ItemText>{t.label}</SelectPrimitive.ItemText>
-                  {/* The structure panel is hidden below md; keep the short
-                      description available inline there. */}
                   <span className="mt-0.5 block text-[0.6875rem] font-normal leading-snug text-muted-foreground md:hidden">
                     {typeDescription(t.key)}
                   </span>
@@ -79,7 +72,6 @@ export default function LogoTypeSelect({
               ))}
             </SelectPrimitive.Viewport>
 
-            {/* Live structure preview, sits to the right of the list. */}
             <div className="hidden w-[16.5rem] shrink-0 border-l border-border bg-card p-4 md:block">
               <LogoTypePreview typeKey={preview} />
             </div>
