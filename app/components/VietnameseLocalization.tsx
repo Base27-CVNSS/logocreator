@@ -115,6 +115,57 @@ const VI_TEXT: Record<string, string> = {
   "Click to rename": "Nhấn để đổi tên",
   "Describe an edit to this logo": "Mô tả chỉnh sửa cho logo này",
   "Couldn't export this size": "Không thể xuất ở kích thước này",
+
+  "Opening your brand kit": "Đang mở bộ nhận diện",
+  "Your brand kit is ready": "Bộ nhận diện của bạn đã sẵn sàng",
+  "Building your brand kit": "Đang tạo bộ nhận diện của bạn",
+  "Color palette": "Bảng màu",
+  "Done": "Hoàn tất",
+  "Saved to this logo": "Đã lưu cùng logo này",
+  "Build this kit again from scratch": "Tạo lại bộ nhận diện này từ đầu",
+  "Rebuild": "Tạo lại",
+  "Delete kit?": "Xóa bộ nhận diện?",
+  "Delete this saved kit": "Xóa bộ nhận diện đã lưu",
+  "Confirm: permanently delete this saved kit":
+    "Xác nhận: xóa vĩnh viễn bộ nhận diện đã lưu",
+  "Discard this brand kit": "Hủy bộ nhận diện này",
+  "Confirm discard: this deletes every built asset":
+    "Xác nhận hủy: thao tác này xóa toàn bộ tài sản đã tạo",
+  "Discard everything?": "Hủy tất cả?",
+  "Discard": "Hủy",
+  "Reopen this kit anytime from the logo.":
+    "Bạn có thể mở lại bộ nhận diện này từ logo bất cứ lúc nào.",
+  "Close anytime, it keeps building in the background.":
+    "Có thể đóng bất cứ lúc nào; quá trình tạo vẫn tiếp tục trong phiên hiện tại.",
+  "Style guide": "Hướng dẫn nhận diện",
+  "Download all (.zip)": "Tải tất cả (.zip)",
+  "Download": "Tải xuống",
+  "Pick what to include. Almost everything is generated free on your device; only the two AI product shots use credits.":
+    "Chọn những hạng mục cần đưa vào. Hầu hết được tạo miễn phí trên thiết bị; chỉ hai ảnh sản phẩm bằng AI sử dụng lượt tính phí.",
+  "Couldn't prepare this logo's assets. The image may have failed to load.":
+    "Không thể chuẩn bị tài sản cho logo này. Có thể ảnh nguồn đã tải lỗi.",
+  "Couldn't prepare this logo's assets":
+    "Không thể chuẩn bị tài sản cho logo này",
+  "Try again, or close and reopen the brand kit.":
+    "Hãy thử lại hoặc đóng rồi mở lại bộ nhận diện.",
+  "Close": "Đóng",
+  "Try again": "Thử lại",
+  "Preparing your assets": "Đang chuẩn bị tài sản",
+  "Preparing your assets…": "Đang chuẩn bị tài sản…",
+  "Free": "Miễn phí",
+  "Cancel": "Hủy",
+  "Build kit": "Tạo bộ nhận diện",
+  "all free": "hoàn toàn miễn phí",
+  "Logo variants": "Biến thể logo",
+  "Merch": "Ứng dụng sản phẩm",
+  "Web & social": "Web & mạng xã hội",
+  "Icons & favicons": "Icon & favicon",
+  "Transparent, on-light, on-dark + SVG":
+    "Nền trong suốt, nền sáng, nền tối + SVG",
+  "Real-photo tee, mug & tote + AI card & signage":
+    "Áo, cốc, túi ảnh thật + danh thiếp và biển hiệu AI",
+  "Avatar, Open Graph card & banner": "Avatar, thẻ Open Graph & banner",
+  "App icon + favicon": "Icon ứng dụng + favicon",
 };
 
 const VI_ATTRIBUTES: Record<string, string> = {
@@ -161,6 +212,14 @@ const VI_ATTRIBUTES: Record<string, string> = {
   "Quick edits": "Chỉnh nhanh",
   "Vector SVG (auto-traced)": "SVG vector (tự động vector hóa)",
   "Regenerate from the same settings": "Tạo lại với cùng thiết lập",
+  "Build this kit again from scratch": "Tạo lại bộ nhận diện này từ đầu",
+  "Confirm: permanently delete this saved kit":
+    "Xác nhận: xóa vĩnh viễn bộ nhận diện đã lưu",
+  "Delete this saved kit": "Xóa bộ nhận diện đã lưu",
+  "Confirm discard: this deletes every built asset":
+    "Xác nhận hủy: thao tác này xóa toàn bộ tài sản đã tạo",
+  "Discard this brand kit": "Hủy bộ nhận diện này",
+  "Preparing your assets": "Đang chuẩn bị tài sản",
   "Blue": "Xanh dương",
   "Red": "Đỏ",
   "Green": "Xanh lá",
@@ -188,6 +247,14 @@ const DYNAMIC_RULES: Array<[RegExp, string]> = [
     "Dùng 1/$1 lượt miễn phí · lưu thành logo mới"],
   [/^~(.+) per edit · added as a new logo$/,
     "~$1 mỗi lần chỉnh sửa · lưu thành logo mới"],
+  [/^(\d+) of (\d+|…) assets$/, "$1/$2 tài sản"],
+  [/^Rendering (.+)…$/, "Đang tạo $1…"],
+  [/^Build (.+) brand kit$/, "Tạo bộ nhận diện cho $1"],
+  [/^(\d+) assets$/, "$1 tài sản"],
+  [/^(\d+) asset$/, "$1 tài sản"],
+  [/^View (.+) larger$/, "Xem $1 lớn hơn"],
+  [/^Download (.+)$/, "Tải $1"],
+  [/^(.+): failed$/, "$1: lỗi"],
 ];
 
 function translateCore(core: string): string {
