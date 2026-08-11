@@ -21,14 +21,22 @@ const VI_TEXT: Record<string, string> = {
   "Inspired by reference": "Lấy cảm hứng từ mẫu tham chiếu",
   "Remove reference": "Xóa mẫu tham chiếu",
   "Logo type": "Kiểu logo",
+  "Style": "Phong cách",
   "Brand color": "Màu thương hiệu",
+  "Brand": "Thương hiệu",
+  "Background": "Nền",
+  "Advanced": "Nâng cao",
+  "Detail": "Mức chi tiết",
   "Detail level": "Mức độ chi tiết",
+  "Monochrome": "Đơn sắc",
   "Reference logo": "Logo tham chiếu",
+  "Variations": "Số phương án",
   "Number of variations": "Số lượng phương án",
   "Feeling lucky": "Thử ngẫu nhiên",
   "Feeling lucky: random style and AI-picked color":
     "Thử ngẫu nhiên: phong cách ngẫu nhiên và màu do AI chọn",
   "Generating…": "Đang tạo…",
+  "Editing…": "Đang chỉnh sửa…",
   "Generate logo": "Tạo logo",
   "Sign in to generate": "Đăng nhập để tạo logo",
   "Add a key to generate": "Thêm API key để tạo logo",
@@ -55,11 +63,65 @@ const VI_TEXT: Record<string, string> = {
   "Create brand kit": "Tạo bộ nhận diện",
   "Open brand kit": "Mở bộ nhận diện",
   "Clear history": "Xóa lịch sử",
+
+  "Your logo history": "Lịch sử logo của bạn",
+  "Favorites": "Yêu thích",
+  "Clear all?": "Xóa tất cả?",
+  "Clear all": "Xóa tất cả",
+  "No logos yet": "Chưa có logo nào",
+  "Generate a logo and it'll be saved here automatically, only on this device.":
+    "Logo bạn tạo sẽ tự động được lưu tại đây và chỉ nằm trên thiết bị này.",
+  "Earlier": "Trước đó",
+  "Today": "Hôm nay",
+  "Yesterday": "Hôm qua",
+  "Untitled": "Chưa đặt tên",
+  "Couldn't vectorize this logo": "Không thể chuyển logo này sang vector",
+  "Remove from favorites": "Bỏ khỏi yêu thích",
+  "Add to favorites": "Thêm vào yêu thích",
+  "Click again to delete": "Nhấn lần nữa để xóa",
+  "Delete": "Xóa",
+  "Confirm delete": "Xác nhận xóa",
+  "Confirm clear all history": "Xác nhận xóa toàn bộ lịch sử",
+  "Clear all history": "Xóa toàn bộ lịch sử",
+  "saved on this device.": "được lưu trên thiết bị này.",
+  "logos": "logo",
+
+  "Standard": "Tiêu chuẩn",
+  "High-res": "Độ phân giải cao",
+  "Print": "In ấn",
+  "PNG export size": "Kích thước xuất PNG",
+  "Generated logo": "Logo đã tạo",
+  "Large preview and actions for this generated logo, including AI edits.":
+    "Xem trước kích thước lớn và thao tác với logo, bao gồm chỉnh sửa bằng AI.",
+  "This image can't be loaded anymore.": "Không thể tải lại ảnh này.",
+  "Auto": "Tự động",
+  "Keep editing": "Tiếp tục chỉnh sửa",
+  "Describe a tweak. AI re-works this exact logo and saves it as a new version.":
+    "Mô tả thay đổi bạn muốn. AI sẽ chỉnh chính logo này và lưu thành một phiên bản mới.",
+  "Bolder": "Đậm hơn",
+  "Simpler": "Đơn giản hơn",
+  "More modern": "Hiện đại hơn",
+  "More detail": "Chi tiết hơn",
+  "Vintage": "Cổ điển",
+  "Flat color": "Màu phẳng",
+  "Fix text": "Sửa chữ",
+  "Apply edit": "Áp dụng chỉnh sửa",
+  "Vector SVG (auto-traced)": "SVG vector (tự động vector hóa)",
+  "Regenerate from the same settings": "Tạo lại với cùng thiết lập",
+  "Redo": "Tạo lại",
+  "Quick edits": "Chỉnh nhanh",
+  "Press Enter to save the new name.": "Nhấn Enter để lưu tên mới.",
+  "Logo name (click to rename)": "Tên logo (nhấn để đổi tên)",
+  "Click to rename": "Nhấn để đổi tên",
+  "Describe an edit to this logo": "Mô tả chỉnh sửa cho logo này",
+  "Couldn't export this size": "Không thể xuất ở kích thước này",
 };
 
 const VI_ATTRIBUTES: Record<string, string> = {
   "A fox, friendly and modern, with a subtle leaf…":
     "Một chú cáo thân thiện, hiện đại, điểm xuyết chiếc lá tinh tế…",
+  "e.g. make the icon bolder, try emerald green, add a small leaf…":
+    "Ví dụ: làm biểu tượng đậm hơn, thử màu xanh ngọc, thêm một chiếc lá nhỏ…",
   "Solstice Coffee": "Cà phê Bình Minh",
   "yourcompany.com": "tencongty.vn",
   "Logo history": "Lịch sử logo",
@@ -90,6 +152,15 @@ const VI_ATTRIBUTES: Record<string, string> = {
   "Add API key": "Thêm API key",
   "Paste your API key": "Dán API key của bạn",
   "Together AI API key": "API key Together AI",
+  "PNG export size": "Kích thước xuất PNG",
+  "Remove from favorites": "Bỏ khỏi yêu thích",
+  "Add to favorites": "Thêm vào yêu thích",
+  "Logo name (click to rename)": "Tên logo (nhấn để đổi tên)",
+  "Click to rename": "Nhấn để đổi tên",
+  "Describe an edit to this logo": "Mô tả chỉnh sửa cho logo này",
+  "Quick edits": "Chỉnh nhanh",
+  "Vector SVG (auto-traced)": "SVG vector (tự động vector hóa)",
+  "Regenerate from the same settings": "Tạo lại với cùng thiết lập",
   "Blue": "Xanh dương",
   "Red": "Đỏ",
   "Green": "Xanh lá",
@@ -112,6 +183,11 @@ const DYNAMIC_RULES: Array<[RegExp, string]> = [
   [/^Generated (\d+) of (\d+)$/, "Đã tạo $1/$2 logo"],
   [/^Making (\d+) logos this run$/, "Lần này sẽ tạo $1 logo"],
   [/^Making 1 logo this run$/, "Lần này sẽ tạo 1 logo"],
+  [/^Open (.+)$/, "Mở $1"],
+  [/^Uses 1 of (\d+) free credits? · added as a new logo$/,
+    "Dùng 1/$1 lượt miễn phí · lưu thành logo mới"],
+  [/^~(.+) per edit · added as a new logo$/,
+    "~$1 mỗi lần chỉnh sửa · lưu thành logo mới"],
 ];
 
 function translateCore(core: string): string {
@@ -138,8 +214,9 @@ function translateTextNode(node: Node) {
   if (!raw) return;
   const core = raw.trim();
   if (!core) return;
-  const translated = translateCore(core);
-  if (translated === core) return;
+  const normalized = core.replace(/\s+/g, " ");
+  const translated = translateCore(normalized);
+  if (translated === normalized) return;
   const leading = raw.match(/^\s*/)?.[0] ?? "";
   const trailing = raw.match(/\s*$/)?.[0] ?? "";
   node.nodeValue = `${leading}${translated}${trailing}`;
@@ -150,8 +227,8 @@ function translateElement(el: Element) {
   for (const attr of ["placeholder", "aria-label", "title"] as const) {
     const value = el.getAttribute(attr);
     if (!value) continue;
-    const translated = VI_ATTRIBUTES[value];
-    if (translated && translated !== value) el.setAttribute(attr, translated);
+    const translated = VI_ATTRIBUTES[value] ?? translateCore(value);
+    if (translated !== value) el.setAttribute(attr, translated);
   }
 }
 
