@@ -38,7 +38,7 @@ export default function ReferenceUpload({
         ref={inputRef}
         type="file"
         accept="image/png,image/jpeg,image/webp,image/svg+xml"
-        aria-label="Upload a reference logo"
+        aria-label="Tải logo tham chiếu"
         className="hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
@@ -48,13 +48,10 @@ export default function ReferenceUpload({
       />
 
       {!value && status === "reading" ? (
-        // The file was just picked: the bytes are still being read/rasterized,
-        // so show the busy state instantly instead of a silent idle dropzone
-        // (which reads as "nothing happened" and invites a second click).
         <div className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-dashed border-border bg-background px-3 py-6 text-center">
           <span className="spinner-ring size-4" />
           <span className="text-sm font-medium text-muted-foreground">
-            Preparing your reference…
+            Đang chuẩn bị ảnh tham chiếu…
           </span>
         </div>
       ) : !value ? (
@@ -67,10 +64,10 @@ export default function ReferenceUpload({
         >
           <ImagePlus className="size-5 text-muted-foreground" />
           <span className="text-sm font-medium text-foreground">
-            Upload reference
+            Tải ảnh tham chiếu
           </span>
           <span className="text-xs text-muted-foreground">
-            PNG, JPG, WebP or SVG · up to 5 MB
+            PNG, JPG, WebP hoặc SVG · tối đa 5 MB
           </span>
         </button>
       ) : (
@@ -79,7 +76,7 @@ export default function ReferenceUpload({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={value.dataUrl}
-              alt="Reference"
+              alt="Ảnh tham chiếu"
               className="size-full object-contain"
             />
             {status === "reading" && (
@@ -91,18 +88,17 @@ export default function ReferenceUpload({
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-2">
-              {/* aria-live so screen readers hear reading → detected/error too */}
               <span className="label-eyebrow" aria-live="polite">
                 {status === "reading"
-                  ? "Reading…"
+                  ? "Đang đọc…"
                   : status === "error"
-                    ? "Couldn't read"
-                    : "Detected"}
+                    ? "Không đọc được"
+                    : "Đã nhận diện"}
               </span>
               <button
                 type="button"
                 onClick={onClear}
-                aria-label="Remove reference"
+                aria-label="Xóa ảnh tham chiếu"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
                 <X className="size-3.5" />
@@ -136,13 +132,12 @@ export default function ReferenceUpload({
             )}
             {status === "reading" && (
               <p className="mt-1 text-xs text-muted-foreground">
-                Reading your reference…
+                Đang phân tích ảnh tham chiếu…
               </p>
             )}
             {status === "error" && (
               <p className="mt-1 text-xs text-muted-foreground">
-                Reading needs chat access on your Together plan. Try another
-                image, or just describe it in the box above.
+                Tính năng đọc ảnh cần quyền truy cập chat trong gói Together AI của bạn. Hãy thử ảnh khác hoặc mô tả trực tiếp ở ô phía trên.
               </p>
             )}
           </div>
